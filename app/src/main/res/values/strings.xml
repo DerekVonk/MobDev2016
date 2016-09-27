@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">SeriesApp</string>
+    <string name="action_settings">Settings</string>
+    <string name="main_list_empty">You haven\'t watched any series?!</string>
+    <string name="main_menu_add">Add</string>
+    <string name="title_activity_add_series">AddSeriesActivity</string>
+    <string name="add_series_save">Save series</string>
+    <string name="add_series_series_hint">Series description</string>
+    <string name="title_activity_details">Series details</string>
+</resources>
