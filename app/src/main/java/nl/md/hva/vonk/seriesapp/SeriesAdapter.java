@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SeriesAdapter extends RecyclerView.Adapter<SeriesAdapter.ViewHolder> {
 
@@ -18,18 +19,44 @@ public class SeriesAdapter extends RecyclerView.Adapter<SeriesAdapter.ViewHolder
         seriesCursor = cursor;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    /**
+     * Constructor
+     */
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView description;
+        private ItemClickListener listener;
 
         public ViewHolder(View itemView) {
             super(itemView);
             description = (TextView) itemView.findViewById(R.id.decription);
+
+//            itemView.setOnClickListener(this);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // wat moet hier?
+                }
+            });
         }
 
+        public void setClickListener(ItemClickListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        public void onClick(View v) {
+            listener.onClickItem(getLayoutPosition());
+        }
     }
 
-    public SeriesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public interface ItemClickListener {
+        void onClickItem(int pos);
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
@@ -49,6 +76,13 @@ public class SeriesAdapter extends RecyclerView.Adapter<SeriesAdapter.ViewHolder
         if (seriesCursor !=null && seriesCursor.moveToPosition(position)) {
             String series = (seriesCursor.getString(seriesCursor.getColumnIndex(DBHelper.COLUMN_SERIES)));
             textView.setText(series);
+
+            holder.setClickListener(new ItemClickListener() {
+                @Override
+                public void onClickItem(int pos) {
+                    // wat moet hier?
+                }
+            });
         }
     }
 

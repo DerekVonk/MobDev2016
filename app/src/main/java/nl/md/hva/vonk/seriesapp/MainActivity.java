@@ -79,11 +79,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Ik kan hier dus geen onItemClick listener plaatsen, die methode is er niet
+        // op een
 //        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
-//                intent.putExtra(EXTRA_ASSIGNMENT_ID, assignmentArrayAdapter.getItem(position).getId());
+//                intent.putExtra(EXTRA_SERIES_ID, assignmentArrayAdapter.getItem(position).getId());
 //                startActivityForResult(intent, 2);
 //            }
 //        });
