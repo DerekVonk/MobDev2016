@@ -11,18 +11,12 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_main">
 
-    <!--<ListView-->
-        <!--android:id="@+id/main_list"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent" />-->
-
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/idRecyclerView"
         android:scrollbars="vertical"
         />
-
 
     <TextView
         android:id="@+id/main_list_empty"

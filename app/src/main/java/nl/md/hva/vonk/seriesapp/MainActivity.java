@@ -73,22 +73,29 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
                 Intent addSeries = new Intent(MainActivity.this, AddSeriesActivity.class);
                 startActivityForResult(addSeries, FAB_REQUEST_CODE);
 
             }
         });
+
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
+//                intent.putExtra(EXTRA_ASSIGNMENT_ID, assignmentArrayAdapter.getItem(position).getId());
+//                startActivityForResult(intent, 2);
+//            }
+//        });
+
+
     }
 
     public void getAllSeries() {
-
         cursor = database.query(DBHelper.TABLE_SERIES, new String[]{DBHelper.COLUMN_SERIES_ID, DBHelper.COLUMN_SERIES}, null, null, null, null, null);
 
         adapter = new SeriesAdapter(cursor);
         recyclerView.setAdapter(adapter);
-
     }
 
 

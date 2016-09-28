@@ -11,10 +11,11 @@ import android.widget.TextView;
 
 public class SeriesAdapter extends RecyclerView.Adapter<SeriesAdapter.ViewHolder> {
 
-    private Cursor remindersCursor;
+    private Cursor seriesCursor;
+
 
     public SeriesAdapter(Cursor cursor) {
-        remindersCursor = cursor;
+        seriesCursor = cursor;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -25,33 +26,34 @@ public class SeriesAdapter extends RecyclerView.Adapter<SeriesAdapter.ViewHolder
             super(itemView);
             description = (TextView) itemView.findViewById(R.id.decription);
         }
-    }
 
+    }
 
     public SeriesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate the custom layout
-        View reminderView = inflater.inflate(R.layout.row_reminder, parent, false);
+        View seriesView = inflater.inflate(R.layout.row_series, parent, false);
 
         // Return a new holder instance
-        SeriesAdapter.ViewHolder viewHolder = new SeriesAdapter.ViewHolder(reminderView);
+        SeriesAdapter.ViewHolder viewHolder = new SeriesAdapter.ViewHolder(seriesView);
+
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(SeriesAdapter.ViewHolder holder, int position) {
         TextView textView = holder.description;
-        if (remindersCursor !=null && remindersCursor.moveToPosition(position))
-        {
-            String reminder = (remindersCursor.getString(remindersCursor.getColumnIndex(DBHelper.COLUMN_SERIES)));
-            textView.setText(reminder);
+
+        if (seriesCursor !=null && seriesCursor.moveToPosition(position)) {
+            String series = (seriesCursor.getString(seriesCursor.getColumnIndex(DBHelper.COLUMN_SERIES)));
+            textView.setText(series);
         }
     }
 
     @Override
     public int getItemCount() {
-        return (remindersCursor == null ? 0 : remindersCursor.getCount());
+        return (seriesCursor == null ? 0 : seriesCursor.getCount());
     }
 }
