@@ -10,12 +10,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextMenu;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +26,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private static final int FAB_REQUEST_CODE = 1111;
+    private static final int DETAILS_UPDATED_CODE = 2222;
     private RecyclerView recyclerView;
     private TextView emptyView;
 
@@ -36,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
     private int[] to;
 
     public static final String EXTRA_SERIES_ID = "extraSeriesId";
+    public static final String SERIES = "series";
+    public static final String POSITION = "position";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
 
         // instantiate gridview for recyclerview
         recyclerView = (RecyclerView) findViewById(R.id.idRecyclerView);
-        RecyclerView.LayoutManager manager = new GridLayoutManager(this, 2);
-        recyclerView.setLayoutManager(manager);
 
         // instantiate datasource and dbhelper
         datasource = new DataSource(this);
@@ -58,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
         database = dbHelper.getWritableDatabase();
 
         getAllSeries();
+
+        RecyclerView.LayoutManager manager = new GridLayoutManager(this, 2);
+        recyclerView.setLayoutManager(manager);
 
         // if series is empty, set visibility of emptyView else set recyclerView
         if (adapter.getItemCount() == 0) {
@@ -75,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent addSeries = new Intent(MainActivity.this, AddSeriesActivity.class);
                 startActivityForResult(addSeries, FAB_REQUEST_CODE);
-
             }
         });
 
@@ -90,12 +97,12 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 
+        registerForContextMenu(recyclerView);
 
     }
 
     public void getAllSeries() {
         cursor = database.query(DBHelper.TABLE_SERIES, new String[]{DBHelper.COLUMN_SERIES_ID, DBHelper.COLUMN_SERIES}, null, null, null, null, null);
-
         adapter = new SeriesAdapter(cursor);
         recyclerView.setAdapter(adapter);
     }
@@ -125,23 +132,22 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if (requestCode == FAB_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-
-//                ???
                 updateSeriesListView();
             }
+//        } else if (requestCode == DETAILS_UPDATED_CODE) {
+//            if (resultCode == RESULT_OK) {
+//                updateSeriesListView();
+//            }
         }
 
     }
 
-    // Heb ik deze methode nog nodig in de recyclerView?
     public void updateSeriesListView() {
 
         adapter = new SeriesAdapter(datasource.getAllSeriesCursor());
         recyclerView.setAdapter(adapter);
     }
-
 
 }

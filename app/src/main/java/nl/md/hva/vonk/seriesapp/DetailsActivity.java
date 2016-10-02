@@ -19,6 +19,11 @@ public class DetailsActivity extends AppCompatActivity {
     private Series series;
     private EditText editText;
 
+    private String passedData;
+    private int passedNumber;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,10 +35,14 @@ public class DetailsActivity extends AppCompatActivity {
         final long seriesId = getIntent().getLongExtra(MainActivity.EXTRA_SERIES_ID, -1);
         series = datasource.getSeries(seriesId);
 
+//        passedData = getIntent().getStringExtra(MainActivity.EXTRA_SERIES_ID);
+//        passedNumber = getIntent().getIntExtra(MainActivity.POSITION, -1);
+
         TextView title = (TextView) findViewById(R.id.details_textview);
         title.setText(series.getSeries());
 
         editText = (EditText) findViewById(R.id.details_updateText);
+        editText.setText(passedData);
 
         Button updateButton = (Button) findViewById(R.id.details_updateButton);
         updateButton.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +52,7 @@ public class DetailsActivity extends AppCompatActivity {
                 datasource.updateSeries(series);
                 Toast.makeText(DetailsActivity.this, "Your Series is Updated!", Toast.LENGTH_SHORT).show();
                 Intent resultIntent = new Intent();
+                resultIntent.putExtra(MainActivity.EXTRA_SERIES_ID, seriesId);
                 setResult(Activity.RESULT_OK, resultIntent);
                 finish();
             }
